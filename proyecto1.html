@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto 1 - Calculadora</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .contenedor-proyecto {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        .contenedor-proyecto h1 {
+            text-align: center;
+            color: #764ba2;
+            margin-bottom: 20px;
+        }
+        .pantalla {
+            background: #2c3e50;
+            color: white;
+            font-size: 2rem;
+            text-align: right;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            min-height: 70px;
+            word-wrap: break-word;
+        }
+        .botones-calc {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+        .botones-calc button {
+            padding: 20px;
+            font-size: 1.3rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            background: #ecf0f1;
+            transition: all 0.2s;
+            font-weight: bold;
+        }
+        .botones-calc button:hover {
+            background: #d5dbdb;
+            transform: scale(1.05);
+        }
+        .botones-calc .operador {
+            background: #667eea;
+            color: white;
+        }
+        .botones-calc .operador:hover {
+            background: #5568d3;
+        }
+        .botones-calc .igual {
+            background: #e74c3c;
+            color: white;
+            grid-row: span 2;
+        }
+        .botones-calc .igual:hover {
+            background: #c0392b;
+        }
+        .botones-calc .limpiar {
+            background: #f39c12;
+            color: white;
+        }
+        .botones-calc .limpiar:hover {
+            background: #d68910;
+        }
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .volver:hover {
+            background: #1a252f;
+        }
+    </style>
+</head>
+<body style="padding-top: 20px; padding-bottom: 20px;">
+
+    <div class="contenedor-proyecto">
+        <h1>🧮 Calculadora</h1>
+
+        <div class="pantalla" id="pantalla">0</div>
+
+        <div class="botones-calc">
+            <button class="limpiar" onclick="limpiar()">C</button>
+            <button class="operador" onclick="borrar()">⌫</button>
+            <button class="operador" onclick="agregar('/')">÷</button>
+            <button class="operador" onclick="agregar('*')">×</button>
+
+            <button onclick="agregar('7')">7</button>
+            <button onclick="agregar('8')">8</button>
+            <button onclick="agregar('9')">9</button>
+            <button class="operador" onclick="agregar('-')">−</button>
+
+            <button onclick="agregar('4')">4</button>
+            <button onclick="agregar('5')">5</button>
+            <button onclick="agregar('6')">6</button>
+            <button class="operador" onclick="agregar('+')">+</button>
+
+            <button onclick="agregar('1')">1</button>
+            <button onclick="agregar('2')">2</button>
+            <button onclick="agregar('3')">3</button>
+            <button class="igual" onclick="calcular()">=</button>
+
+            <button onclick="agregar('0')" style="grid-column: span 2;">0</button>
+            <button onclick="agregar('.')">.</button>
+        </div>
+
+        <a href="index.html" class="volver">⬅ Volver al CV</a>
+    </div>
+
+    <script>
+        let pantalla = document.getElementById("pantalla");
+        let operacion = "";
+
+        function agregar(valor) {
+            if (pantalla.textContent === "0" && valor !== ".") {
+                operacion = valor;
+            } else {
+                operacion += valor;
+            }
+            pantalla.textContent = operacion;
+        }
+
+        function limpiar() {
+            operacion = "";
+            pantalla.textContent = "0";
+        }
+
+        function borrar() {
+            operacion = operacion.slice(0, -1);
+            pantalla.textContent = operacion || "0";
+        }
+
+        function calcular() {
+            try {
+                let resultado = eval(operacion);
+                pantalla.textContent = resultado;
+                operacion = resultado.toString();
+            } catch (e) {
+                pantalla.textContent = "Error";
+                operacion = "";
+            }
+        }
+    </script>
+
+</body>
+</html>

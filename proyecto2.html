@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto 2 - Juego de Adivinar</title>
+    <link rel="stylesheet" href="estilos.css">
+    <style>
+        .contenedor-juego {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        .contenedor-juego h1 {
+            color: #764ba2;
+            margin-bottom: 15px;
+        }
+        .contenedor-juego p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        .input-juego {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            border: 2px solid #667eea;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .btn-juego {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            margin: 5px;
+        }
+        .btn-juego:hover {
+            transform: scale(1.05);
+        }
+        .mensaje {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .mensaje.alto {
+            background: #e74c3c;
+            color: white;
+        }
+        .mensaje.bajo {
+            background: #3498db;
+            color: white;
+        }
+        .mensaje.correcto {
+            background: #27ae60;
+            color: white;
+        }
+        .mensaje.inicial {
+            background: #ecf0f1;
+            color: #555;
+        }
+        .intentos {
+            margin-top: 15px;
+            color: #777;
+            font-size: 0.95rem;
+        }
+        .volver {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            padding: 12px;
+            background: #2c3e50;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+        .volver:hover {
+            background: #1a252f;
+        }
+    </style>
+</head>
+<body style="padding-top: 20px; padding-bottom: 20px;">
+
+    <div class="contenedor-juego">
+        <h1>🎯 Juego de Adivinar</h1>
+        <p>Estoy pensando en un número entre <strong>1 y 100</strong>. ¿Podés adivinarlo?</p>
+
+        <input type="number" id="intento" class="input-juego" placeholder="Ingresá un número" min="1" max="100">
+        <br>
+        <button class="btn-juego" onclick="verificar()">Probar</button>
+        <button class="btn-juego" onclick="reiniciar()" style="background: #e74c3c;">Reiniciar</button>
+
+        <div id="mensaje" class="mensaje inicial">¡Empezá a adivinar!</div>
+        <div class="intentos" id="intentos">Intentos: 0</div>
+
+        <a href="index.html" class="volver">⬅ Volver al CV</a>
+    </div>
+
+    <script>
+        let numeroSecreto = Math.floor(Math.random() * 100) + 1;
+        let intentos = 0;
+
+        function verificar() {
+            let input = document.getElementById("intento");
+            let valor = parseInt(input.value);
+            let mensaje = document.getElementById("mensaje");
+
+            if (isNaN(valor) || valor < 1 || valor > 100) {
+                mensaje.textContent = "⚠️ Ingresá un número entre 1 y 100";
+                mensaje.className = "mensaje inicial";
+                return;
+            }
+
+            intentos++;
+            document.getElementById("intentos").textContent = "Intentos: " + intentos;
+
+            if (valor === numeroSecreto) {
+                mensaje.textContent = "🎉 ¡Correcto! El número era " + numeroSecreto;
+                mensaje.className = "mensaje correcto";
+            } else if (valor > numeroSecreto) {
+                mensaje.textContent = "⬇️ Muy alto, probá con uno más bajo";
+                mensaje.className = "mensaje alto";
+            } else {
+                mensaje.textContent = "⬆️ Muy bajo, probá con uno más alto";
+                mensaje.className = "mensaje bajo";
+            }
+
+            input.value = "";
+            input.focus();
+        }
+
+        function reiniciar() {
+            numeroSecreto = Math.floor(Math.random() * 100) + 1;
+            intentos = 0;
+            document.getElementById("intentos").textContent = "Intentos: 0";
+            let mensaje = document.getElementById("mensaje");
+            mensaje.textContent = "¡Empezá a adivinar!";
+            mensaje.className = "mensaje inicial";
+            document.getElementById("intento").value = "";
+        }
+
+        document.getElementById("intento").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") verificar();
+        });
+    </script>
+
+</body>
+</html>
